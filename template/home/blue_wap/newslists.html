@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Cache-Control" content="no-transform"> 
+        <meta http-equiv="Cache-Control" content="no-siteapp"> 
+         <title>{$web['meta_title']}</title>
+        <meta name="keywords" content="{$list_keywords}" />
+        <meta name="description" content="{$list_description}" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+        <link rel="stylesheet" href="{$home_tplpath}css/style.css">
+        <script src="{$home_tplpath}js/jquery.min.js" type="text/javascript"></script>
+        <script src="{$home_tplpath}js/global.js" type="text/javascript"></script>
+    </head>
+    <body>
+    <!--header-->
+	<div class="header">
+		<a class="icon-back" href="javascript:history.go(-1)"></a>
+          <h1>{$list_title}</h1>
+     		<span class="icon-grouop">
+			<a class="icon-search" href="javascript:"></a>
+			<a class="icon-menu" href="javascript:"></a>
+		</span>
+	</div>
+	<!--search-->
+	<div class="search">
+		<div class="search-mask"></div>
+		<div class="search-panel">
+			<div class="search-form">
+				<form  method="post" name="search"  action="{:url('home/search/index')}">
+					<input type="text" name="keyword" placeholder="请输入书名/作者/专题" class="search-key">	
+					<button type="submit" class="search-btn" id="search-btn">Go</button>
+				</form>
+			</div>
+			<div class="search-bar">大家都在看</div>
+			<div class="search-tags">
+                {novel id="novel" limit="8" order="hits desc"}
+				<a href="{$novel['url']}">{$novel['title']}</a>
+                {/novel}
+			</div>
+		</div>
+	</div>
+	<!--menu-->	
+	<div class="menu">
+		<div class="menu-mask"></div>
+		<div class="menu-panel">
+			<div class="menu-list">
+				{nav id="vo"}
+				<a href="{$vo['url']}">
+					<span>{$vo['title']}</span>
+				</a>
+				{/nav}
+			</div>
+			<div class="menu-btn">
+				<a class="btn-bookshelf" href="{:url('user/bookshelf/index')}">我的书架</a>
+			</div>
+		</div>
+	</div>   
+    <!--wrap-->
+    <div class="wrap">
+        <div class="mod mod-news">
+            <div class="news-list">
+                <ul class="clearfix">
+                    {news id="news" limit="20" order="update_time desc" page="1"}
+                    <li><a href="{$news['url']}">{$news['title']}</a><span>{$news['time']|time_format="m-d"}</span></li>
+                    {/news}
+                </ul>
+            </div>
+            <div class="pages">
+                {news_page /}
+            </div>
+        </div>
+    </div>
+    {include file="template/home/blue_wap/footer.html" /}
+</body>
+</html>

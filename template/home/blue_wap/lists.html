@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Cache-Control" content="no-transform"> 
+        <meta http-equiv="Cache-Control" content="no-siteapp"> 
+         <title>{$web['meta_title']}</title>
+        <meta name="keywords" content="{$list_keywords}" />
+        <meta name="description" content="{$list_description}" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+        <link rel="stylesheet" href="{$home_tplpath}css/style.css">
+        <script src="{$home_tplpath}js/jquery.min.js" type="text/javascript"></script>
+        <script src="{$home_tplpath}js/global.js" type="text/javascript"></script>
+    </head>
+    <body>
+    <!--header-->
+	<div class="header">
+		<a class="icon-back" href="javascript:history.go(-1)"></a>
+          <h1>{$list_title}</h1>
+     		<span class="icon-grouop">
+			<a class="icon-search" href="javascript:"></a>
+			<a class="icon-menu" href="javascript:"></a>
+		</span>
+	</div>
+	<!--search-->
+	<div class="search">
+		<div class="search-mask"></div>
+		<div class="search-panel">
+			<div class="search-form">
+				<form  method="post" name="search"  action="{:url('home/search/index')}">
+					<input type="text" name="keyword" placeholder="请输入书名/作者/专题" class="search-key">	
+					<button type="submit" class="search-btn" id="search-btn">Go</button>
+				</form>
+			</div>
+			<div class="search-bar">大家都在看</div>
+			<div class="search-tags">
+                {novel id="novel" limit="8" order="hits desc"}
+				<a href="{$novel['url']}">{$novel['title']}</a>
+                {/novel}
+			</div>
+		</div>
+	</div>
+	<!--menu-->	
+	<div class="menu">
+		<div class="menu-mask"></div>
+		<div class="menu-panel">
+			<div class="menu-list">
+				{nav id="vo"}
+				<a href="{$vo['url']}">
+					<span>{$vo['title']}</span>
+				</a>
+				{/nav}
+			</div>
+			<div class="menu-btn">
+				<a class="btn-bookshelf" href="{:url('user/bookshelf/index')}">我的书架</a>
+			</div>
+		</div>
+	</div>   
+    <!--wrap-->
+    <div class="wrap">
+        <!-- book-nav -->
+        <div class="mod mod-nav">
+            <div id="book-nav" class="book-nav">
+                <ul class="clearfix">
+                    {filter id="type" name="type" type="0"}
+                    <li {eq name="type['current']" value="1"}class="on"{/eq}><a href="{$type['url']}" title="{$type['title']}">{$type['title']}</a></li>
+                    {/filter}
+                </ul>
+            </div>
+            {notempty name="cid"}
+            <div id="book-nav" class="book-nav">
+                <ul class="clearfix">
+                    {filter id="type" name="type" cid="$cid"}
+                    <li {eq name="type['current']" value="1"}class="on"{/eq}><a href="{$type['url']}" title="{$type['title']}">{$type['title']}</a></li>
+                    {/filter}
+                </ul>
+            </div>
+            {/notempty}
+            <div id="book-nav" class="book-nav">
+                <ul class="clearfix">
+                    {filter id="serialize" name="serialize"}
+                    <li {eq name="serialize['current']" value="1"}class="on"{/eq}><a href="{$serialize['url']}" title="{$serialize['title']}">{$serialize['title']}</a></li>
+                    {/filter}
+                </ul>
+            </div>
+            <div id="book-nav" class="book-nav">
+                <ul class="clearfix">
+                    {filter id="size" name="size"}
+                    <li {eq name="size['current']" value="1"}class="on"{/eq}><a href="{$size['url']}" title="{$size['title']}">{$size['title']}</a></li>
+                    {/filter}
+                </ul>
+            </div>
+            <div id="book-nav" class="book-nav">
+                <ul class="clearfix">
+                    {filter id="update" name="update"}
+                    <li {eq name="update['current']" value="1"}class="on"{/eq}><a href="{$update['url']}" title="{$update['title']}">{$update['title']}</a></li>
+                    {/filter}
+                </ul>
+            </div>
+        </div>
+        <div class="mod new-book">
+            <div class="book-list">
+                <ul class="clearfix">
+                    {novel id="novel" limit="10" order="id desc" page="1"}
+                    <li>
+                        <img class="pic lazy" src="{$novel['pic']}" alt="{$novel['title']}">
+                        <a class="tit" href="{$novel['url']}">{$novel['title']}</a>
+                        <p class="intro">{$novel['content']|raw|strip_tags|mb_substr=0,160}</p>
+                        <p class="info">
+                            <span><aria>作者：</aria>{$novel['author']}</span>
+                            <em class="type">{$novel['ctitle']}</em>
+                            <em class="finish">{$novel['serialize_text']}</em>
+                        </p>
+                    </li>
+                    {/novel}
+                </ul>
+            </div>
+            <div class="pages">
+                {novel_page /}
+            </div>
+        </div>
+    </div>
+    {include file="template/home/blue_wap/footer.html" /}
+</body>
+</html>
